@@ -1,0 +1,63 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: fargate-only-cluster
+  region: ap-southeast-1
+  version: "1.27"
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: opentelemetry-collector
+      namespace: opentelemetry
+      labels: {aws-usage: "application"}
+    attachPolicyARNs:
+    - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+    - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+    ## Or with below inline policies
+    # attachPolicy:
+    #   Version: "2012-10-17"
+    #   Statement:
+    #   - Effect: Allow
+    #     Action:
+    #     - "logs:PutLogEvents"
+    #     - "logs:CreateLogGroup"
+    #     - "logs:CreateLogStream"
+    #     - "logs:DescribeLogStreams"
+    #     - "logs:DescribeLogGroups"
+    #     - "xray:PutTraceSegments"
+    #     - "xray:PutTelemetryRecord"
+    #     - "xray:GetSamplingRules"
+    #     - "xray:GetSamplingTargets"
+    #     - "xray:GetSamplingStatisticSummaries"
+    #     - "ssm:GetParameters"
+    #     Resource: "*"
+
+fargateProfiles:
+- name: fp-default
+  selectors:
+  # All workloads in the "default" Kubernetes namespace will be
+  # scheduled onto Fargate:
+  - namespace: default
+  # All workloads in the "kube-system" Kubernetes namespace will be
+  # scheduled onto Fargate:
+  - namespace: kube-system
+- name: cert-manager
+  selectors:
+  - namespace: cert-manager
+- name: fargate-container-insights
+  selectors:
+  - namespace: fargate-container-insights
+- name: demo-app-ns
+  selectors:
+  - namespace: opentelemetry
+  - namespace: ui
+  - namespace: catalog
+
+# cloudWatch:
+#   clusterLogging:
+#     enableTypes: ["*"]
+#     logRetentionInDays: 30
+
