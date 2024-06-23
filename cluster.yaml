@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: fargate-obeservability-demo
+  name: fargate-observability-demo
   region: ap-southeast-1
   version: "1.28"
 

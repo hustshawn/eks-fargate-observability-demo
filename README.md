@@ -24,7 +24,7 @@ helm upgrade --install \
 
 ### 1.3 Install adot addon
 ```
-eksctl create addon --name adot --cluster fargate-obeservability-demo --region ap-southeast-1
+eksctl create addon --name adot --cluster fargate-observability-demo --region ap-southeast-1
 ```
 
 ### 2. Deploy Demo Application
