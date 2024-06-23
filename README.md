@@ -1,4 +1,4 @@
-EKS Fargate Obeservability Demo
+EKS Fargate Observability Demo
 ===
 
 
