@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: fargate-observability-demo
+  name: fargate-demo
   region: ap-southeast-1
   version: "1.28"
 
@@ -16,6 +16,12 @@ iam:
     attachPolicyARNs:
     - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
     - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+  - metadata:
+      name: adot-collector
+      namespace: fargate-container-insights
+      labels: {aws-usage: "application"}
+    attachPolicyARNs:
+    - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 
 fargateProfiles:
 - name: fp-default
@@ -29,9 +35,12 @@ fargateProfiles:
 - name: cert-manager
   selectors:
   - namespace: cert-manager
-- name: demo-app-ns
+- name: observability
   selectors:
   - namespace: opentelemetry*
+  - namespace: fargate-container-insights
+- name: demo-app-ns
+  selectors:
   - namespace: ui
   - namespace: catalog
 
