@@ -51,7 +51,7 @@ Refernce: https://aws.amazon.com/blogs/containers/introducing-amazon-cloudwatch-
 #### 4.1 Configure IAM Role for Service Account (Optional)
 This should be already configured if you are using provided `cluster.yaml` to create cluster. Otherwise, you may try with below commands to configure for your existing EKS cluster.
 ```
-export CLUSTER_NAME=fargate-obeservability-demo
+export CLUSTER_NAME=fargate-observability-demo
 export REGION=ap-southeast-1
 export SERVICE_ACCOUNT_NAMESPACE=fargate-container-insights
 export SERVICE_ACCOUNT_NAME=adot-collector

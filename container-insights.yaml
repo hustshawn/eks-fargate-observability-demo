@@ -92,6 +92,9 @@ data:
             match_type: regexp
             action: update
             operations:
+              - action: add_label
+                new_label: EKS_Cluster
+                new_value: ${CLUSTER_NAME}
               - action: update_label
                 label: name
                 new_label: container_id
@@ -505,7 +508,7 @@ spec:
     matchLabels:
       app: aws-adot
       component: adot-collector
-  serviceName: adot-collector-service
+  serviceName: adot-collector
   template:
     metadata:
       labels:
@@ -516,6 +519,7 @@ spec:
       securityContext:
         fsGroup: 65534
       containers:
+      # - image: amazon/aws-otel-collector:latest
       - image: amazon/aws-otel-collector:v0.15.1
         name: adot-collector
         imagePullPolicy: Always
@@ -524,7 +528,9 @@ spec:
         - "--config=/conf/adot-collector-config.yaml"
         env:
         - name: OTEL_RESOURCE_ATTRIBUTES
-          value: "ClusterName=fargate-obeservability-demo"
+          value: "ClusterName=fargate-observability-demo"
+        - name: CLUSTER_NAME
+          value: "fargate-observability-demo"
         resources:
           limits:
             cpu: 1

@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: fargate-demo
+  name: fargate-observability-demo
   region: ap-southeast-1
   version: "1.28"
 
@@ -39,11 +39,11 @@ fargateProfiles:
   selectors:
   - namespace: opentelemetry*
   - namespace: fargate-container-insights
+  - namespace: amazon-cloudwatch
 - name: demo-app-ns
   selectors:
   - namespace: ui
   - namespace: catalog
-
 # cloudWatch:
 #   clusterLogging:
 #     enableTypes: ["*"]
